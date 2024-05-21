@@ -1,41 +1,41 @@
-import type { MetaFunction } from "@remix-run/node";
+import {json, type LoaderFunctionArgs, type MetaFunction, redirect} from '@remix-run/node'
+import {createSupabaseServerClient} from "~/supabase/supabase.server";
+import {useLoaderData} from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix App" },
-    { name: "description", content: "Welcome to Remix!" },
+    {title: "New Remix App"},
+    {name: "description", content: "Welcome to Remix!"},
   ];
 };
 
+
+export async function loader({request}: LoaderFunctionArgs) {
+  const {supabase, headers} = createSupabaseServerClient(request);
+  const {data, error} = await supabase.auth.getSession();
+  if (error) {
+    console.log(error);
+    throw error;
+  }
+  if (!data.session) {
+    return redirect('signin');
+  }
+
+  console.log(data.session.user.id)
+  const {data: todos} = await supabase.from('todos').select('*');
+  return json(todos, {headers})
+}
+
 export default function Index() {
+  const todos = useLoaderData<typeof loader>();
+  console.log(todos)
   return (
-    <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
-      <h1>Welcome to Remix</h1>
-      <ul>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/blog"
-            rel="noreferrer"
-          >
-            15m Quickstart Blog Tutorial
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            href="https://remix.run/tutorials/jokes"
-            rel="noreferrer"
-          >
-            Deep Dive Jokes App Tutorial
-          </a>
-        </li>
-        <li>
-          <a target="_blank" href="https://remix.run/docs" rel="noreferrer">
-            Remix Docs
-          </a>
-        </li>
-      </ul>
+    <div style={{fontFamily: "system-ui, sans-serif", lineHeight: "1.8"}}>
+      <h1>Your Todos</h1>
+      {todos ? <ul>
+        {todos.map((t, index) => <li key={index}>{t.desc}</li>)}
+      </ul> : <p>No Todos</p>}
+
     </div>
   );
 }
