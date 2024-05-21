@@ -54,4 +54,4 @@ jobs:
       run: |
         echo "MY_VAR is $MY_VAR"
         # Assuming you have a Node.js script that prints process.env.MY_VAR
-        node -e "console.log('MY_VAR in Node.js:', process.env.MY_VAR)"
+        node -e "console.log('MY_VAR in Node.js:', process.env.MY_VAR.length)"
