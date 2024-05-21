@@ -52,13 +52,15 @@ jobs:
         echo "MY_OUTPUT=$my_output" >> $GITHUB_ENV
     - name: Use the output from previous step
       run: echo "The output was ${{ env.MY_OUTPUT }}"
+    - name: Create .env file
+      run: echo "SUPABASE_URL=http://127.0.0.1:54321\nSUPABASE_ANON_KEY=${{ env.MY_OUTPUT }}\n" > .env
     - name: Use environment variable in Node.js app
       env:
         SUPABASE_ANON_KEY: ${{ env.MY_OUTPUT }}
       run: |
         echo "MY_VAR is $MY_VAR"
         # Assuming you have a Node.js script that prints process.env.MY_VAR
-        node -e "console.log('logmyvars', process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY.length)"
+        node -e "console.log('logmyvars: ', process.env.SUPABASE_URL)"
     - name: run e2e
       run: npm run e2e:ci
     - run: supabase stop
