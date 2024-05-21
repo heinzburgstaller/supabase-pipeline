@@ -52,4 +52,4 @@ jobs:
         echo "SUPABASE_ANON_KEY=$(supabase status -o json | jq -r '.ANON_KEY')" >> .env
     - name: run e2e
       run: npm run e2e:ci
-    - run: supabase stop
+    - run: supabase stop --no-backup
