@@ -41,7 +41,7 @@ jobs:
       run: npx playwright install chromium --with-deps
     - run: supabase gen types typescript --project-id "$PROJECT_ID" --schema public > types/supabase.ts
     - run: npm run build --if-present
-    - run: supabase init
+    # - run: supabase init
     - run: supabase start
     - run: supabase db reset
     # - run: sleep 60 # Wait for a while to ensure Supabase is up and running
