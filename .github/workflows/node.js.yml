@@ -58,7 +58,7 @@ jobs:
       run: |
         echo "MY_VAR is $MY_VAR"
         # Assuming you have a Node.js script that prints process.env.MY_VAR
-        node -e "console.log(`node ${process.env.SUPABASE_URL} - ${process.env.SUPABASE_ANON_KEY.length}`)"
+        node -e "console.log('logmyvars', process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY.length)"
     - name: run e2e
       run: npm run e2e:ci
     - run: supabase stop
