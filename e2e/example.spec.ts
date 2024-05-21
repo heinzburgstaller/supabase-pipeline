@@ -11,4 +11,8 @@ test('Sign in and show data', async ({ page }) => {
   await page.getByText('Login').click();
 
   await expect(page.getByText('Your Todos')).toBeVisible();
+
+  const items = page.locator('ul > li');
+  await expect(items.nth(0)).toHaveText('Beer');
+  await expect(items.nth(1)).toHaveText('Coffee');
 });

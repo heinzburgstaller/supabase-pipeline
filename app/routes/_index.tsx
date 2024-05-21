@@ -22,7 +22,7 @@ export async function loader({request}: LoaderFunctionArgs) {
   }
 
   console.log(data.session.user.id)
-  const {data: todos} = await supabase.from('todos').select('*');
+  const {data: todos} = await supabase.from('todos').select('*').order('desc', {ascending: true});
   return json(todos, {headers})
 }
 
