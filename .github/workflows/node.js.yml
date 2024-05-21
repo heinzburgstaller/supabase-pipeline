@@ -24,6 +24,7 @@ jobs:
       SUPABASE_ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
       SUPABASE_DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
       PROJECT_ID: iuqnzrcqlvpsznhqdsln
+      SUPABASE_URL: http://127.0.0.1:54321
 
     steps:
     - uses: actions/checkout@v4
@@ -50,8 +51,8 @@ jobs:
       run: echo "The output was ${{ env.MY_OUTPUT }}"
     - name: Use environment variable in Node.js app
       env:
-        MY_VAR: ${{ env.MY_OUTPUT }}
+        SUPABASE_ANON_KEY: ${{ env.MY_OUTPUT }}
       run: |
         echo "MY_VAR is $MY_VAR"
         # Assuming you have a Node.js script that prints process.env.MY_VAR
-        node -e "console.log('MY_VAR in Node.js:', process.env.MY_VAR.length)"
+        node -e "console.log('MY_VAR in Node.js:', process.env.SUPABASE_URL)"
