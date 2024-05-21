@@ -36,13 +36,13 @@ export default function Signin() {
   return <div><h1>Signin</h1>
     <Form method="post">
       <div>
-        <label htmlFor="uname"><b>E-mail</b></label>
-        <input type="text" placeholder="Enter E-Mail" name="email" required/>
+        <label htmlFor="email">Email</label>
+        <input id="email" type="text" placeholder="Enter E-Mail" name="email" required/>
       </div>
 
       <div>
-        <label htmlFor="psw"><b>Password</b></label>
-        <input type="password" placeholder="Enter Password" name="password" required/>
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" placeholder="Enter Password" name="password" required/>
       </div>
 
       {actionData && !actionData.success ? <p>{actionData.errorMessage}</p> : null}
