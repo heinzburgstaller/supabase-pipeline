@@ -13,8 +13,9 @@ test('Sign in and show data', async ({page}) => {
   await expect(page.getByText('Your Todos')).toBeVisible();
 
   const items = page.locator('ul > li');
+  const liCount = await items.count();
   const entries = ['Beer', 'Coffee'];
-  expect(items.count()).toEqual(entries.length);
+  expect(liCount).toEqual(entries.length);
   for (let i = 0; i < entries.length; i++) {
     await expect(items.nth(i)).toHaveText(entries[i]);
   }
