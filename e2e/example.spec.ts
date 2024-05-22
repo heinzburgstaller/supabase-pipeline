@@ -14,7 +14,7 @@ test('Sign in and show data', async ({page}) => {
 
   const items = page.locator('ul > li');
   const entries = ['Beer', 'Coffee'];
-  expect(items.all()).toHaveLength(entries.length);
+  expect(items.count()).toEqual(entries.length);
   for (let i = 0; i < entries.length; i++) {
     await expect(items.nth(i)).toHaveText(entries[i]);
   }
