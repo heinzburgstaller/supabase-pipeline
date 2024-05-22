@@ -1,6 +1,6 @@
-import { test, expect } from '@playwright/test';
+import {expect, test} from '@playwright/test';
 
-test('Sign in and show data', async ({ page }) => {
+test('Sign in and show data', async ({page}) => {
   await page.goto('http://localhost:3000');
 
   await expect(page.getByText('Signin')).toBeVisible();
@@ -13,6 +13,9 @@ test('Sign in and show data', async ({ page }) => {
   await expect(page.getByText('Your Todos')).toBeVisible();
 
   const items = page.locator('ul > li');
-  await expect(items.nth(0)).toHaveText('Beer');
-  await expect(items.nth(1)).toHaveText('Coffee');
+  const entries = ['Beer', 'Coffee'];
+  expect(items.all()).toHaveLength(entries.length);
+  for (let i = 0; i < entries.length; i++) {
+    await expect(items.nth(i)).toHaveText(entries[i]);
+  }
 });
