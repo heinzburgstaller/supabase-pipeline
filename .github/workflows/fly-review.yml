@@ -11,7 +11,7 @@ env:
   FLY_ORG: personal
 
 jobs:
-  review_app:
+  staging_app:
     runs-on: ubuntu-latest
     outputs:
       url: ${{ steps.deploy.outputs.url }}
