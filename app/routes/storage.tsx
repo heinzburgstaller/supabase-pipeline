@@ -6,6 +6,7 @@ import {
 import { Form, useActionData, useFetcher } from "@remix-run/react";
 import { createSupabaseServerClient } from "~/supabase/supabase.server";
 import { useFileUpload } from "~/hooks/useFileUpload";
+import styles from "../styles.module.css";
 
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -40,7 +41,7 @@ export async function action({ request }: ActionFunctionArgs) {
         throw new Error(error.message);
       }
 
-      const { data: { publicUrl } } = await supabase.storage.from('images').getPublicUrl(`${userId}/${filename}`);
+      const { data: { publicUrl } } = supabase.storage.from('images').getPublicUrl(`${userId}/${filename}`);
       files.push({ name: file1.name, url: publicUrl });
       return publicUrl;
     },
@@ -61,8 +62,6 @@ export async function action({ request }: ActionFunctionArgs) {
   // let files = formData.getAll("file") as NodeOnDiskFile[];
   return json({ files }, { headers });
 }
-
-type MyTabe = typeof action;
 
 const Storage = () => {
   const actionData = useActionData<typeof action>();
@@ -92,7 +91,10 @@ const Storage = () => {
          * and the ones we've already uploaded
          */}
         {images.map((file) => {
-          return <img key={file.name} src={file.url} />;
+          return <div className={styles.outer}>
+            <div className={styles.container} style={{ backgroundImage: `url(${file.url})` }}></div>
+            <div><h2>{file.name}</h2></div>
+            </div>;
         })}
       </ul>
     </div>
